@@ -1,0 +1,56 @@
+---
+# Questions
+
+accountname:
+  type: str
+  help: The name of the organization on GitHub
+  default: radio-aktywne
+
+email:
+  type: str
+  help: Your email address
+  default: it@radioaktywne.pl
+
+packagename:
+  type: str
+  help: The name of the package
+
+importname:
+  type: str
+  help: The name that will be used to import the package in Python code
+  default: "{{ packagename | lower | replace('-', '_') }}"
+
+description:
+  type: str
+  help: A short description of the package
+
+reponame:
+  type: str
+  help: The name of the repository
+  default: "package-{{ packagename }}"
+
+repourl:
+  type: str
+  help: The URL of the repository
+  default: "https://github.com/{{ accountname }}/{{ reponame }}"
+
+docs:
+  type: bool
+  help: Whether to include a documentation site for the package
+  default: true
+
+docsurl:
+  type: str
+  help: The URL of the documentation site for the package
+  default: "https://{{ accountname }}.github.io/{{ reponame }}"
+  when: "{{ docs }}"
+
+releases:
+  type: bool
+  help: Whether you plan to make releases
+  default: true
+
+# Configuration
+
+_subdirectory: src
+_answers_file: .copier-answers.yaml
