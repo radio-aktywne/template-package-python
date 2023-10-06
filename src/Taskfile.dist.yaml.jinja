@@ -6,9 +6,8 @@ tasks:
     desc: Fetch template updates
     interactive: true
     env:
-      GIT_CONFIG_COUNT: 1
-      GIT_CONFIG_KEY_0: commit.gpgsign
-      GIT_CONFIG_VALUE_0: false
+      GIT_CONFIG_GLOBAL: ""
+      GIT_CONFIG_SYSTEM: ""
     cmds:
       - >
         copier
@@ -22,7 +21,8 @@ tasks:
       - >
         nix
         --accept-flake-config
-        --extra-experimental-features 'nix-command flakes'
+        --extra-experimental-features
+        'nix-command flakes'
         --no-warn-dirty
         flake
         update
@@ -56,13 +56,13 @@ tasks:
         rm
         --recursive
         --force
-        ./node_modules/
+        node_modules
     status:
       - >
         test
         '!'
         -d
-        ./node_modules/
+        node_modules
   install-docs:
     desc: Install docs dependencies
     dir: docs
@@ -71,7 +71,7 @@ tasks:
       - ./package-lock.json
       - ../flake.lock
       - ../*.nix
-      - ../Taskfile.dist.{yaml,yml}
+      - ../Taskfile.dist.yaml
       - ../{taskfile,Taskfile}.{yaml,yml}
     generates:
       - ./node_modules/**/*
@@ -142,33 +142,31 @@ tasks:
         test
         '!'
         -d
-        ./.venv/
-  purge:
-    desc: Clean everything
-    cmds:
-      - defer:
-          task: clean
-      {%- if docs %}
-      - defer:
-          task: remove-docs-node-modules
-      {%- endif %}
+        .venv
   venv:
     desc: Create virtualenv
     cmds:
-      - task: clean
-        vars:
-          CLI_ARGS: ""
       - >
+        test
+        -f
+        .venv/bin/activate
+        &&
+        source
+        .venv/bin/activate
+        &&
+        deactivate
+        ;
         python
         -m
         venv
         {{ '{{ .CLI_ARGS }}' }}
         .venv
-    status:
-      - >
-        test
-        -d
-        ./.venv/
+        &&
+        python
+        -m
+        venv
+        --upgrade
+        .venv
   install:
     desc: Install package
     sources:
@@ -177,10 +175,10 @@ tasks:
       - ./poetry.lock
       - ./poetry.toml
       - ./pyproject.toml
-      - ./Taskfile.dist.{yaml,yml}
+      - ./Taskfile.dist.yaml
       - ./{taskfile,Taskfile}.{yaml,yml}
     generates:
-      - ./.venv/lib/python*/site-packages/{{ importname }}-*.dist-info/*
+      - ./.venv/**/*
     cmds:
       - task: venv
         vars:
@@ -204,9 +202,7 @@ tasks:
   update:
     desc: Update dependencies
     cmds:
-      - task: venv
-        vars:
-          CLI_ARGS: ""
+      - task: install-internal
       - >
         source
         .venv/bin/activate
@@ -218,9 +214,7 @@ tasks:
   lock:
     desc: Update dependencies versions in lock file
     cmds:
-      - task: venv
-        vars:
-          CLI_ARGS: ""
+      - task: install-internal
       - >
         source
         .venv/bin/activate
@@ -232,6 +226,7 @@ tasks:
   bump:
     desc: Bump version
     cmds:
+      - task: install-internal
       - >
         source
         .venv/bin/activate

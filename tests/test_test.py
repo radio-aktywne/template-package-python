@@ -2,8 +2,9 @@ from pathlib import Path
 
 import copier
 import pytest
-from helpers.utils import CWD, SandboxedGitRepo
 from plumbum import local
+
+from tests.utils import CWD, SandboxedGitRepo
 
 
 @pytest.fixture()
