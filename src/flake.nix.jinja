@@ -41,6 +41,7 @@
         python = pkgs.python311;
         nil = pkgs.nil;
         task = pkgs.go-task;
+        coreutils = pkgs.coreutils;
         trunk = pkgs.trunk-io;
         poetry = pkgs.poetry;
         copier = pkgs.copier;
@@ -73,6 +74,7 @@
               python
               nil
               task
+              coreutils
               trunk
               poetry
               copier
@@ -90,6 +92,7 @@
             packages = [
               python
               task
+              coreutils
               poetry
             ];
 
@@ -104,6 +107,7 @@
 
             packages = [
               task
+              coreutils
               copier
             ];
           };
@@ -116,6 +120,7 @@
               node
               {%- endif %}
               task
+              coreutils
               trunk
             ];
           };
@@ -126,6 +131,7 @@
             packages = [
               python
               task
+              coreutils
               poetry
             ];
 
@@ -142,6 +148,7 @@
             packages = [
               node
               task
+              coreutils
             ];
           };
           {%- endif %}
