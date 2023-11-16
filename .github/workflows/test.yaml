@@ -41,6 +41,7 @@ jobs:
     env:
       NIX_CACHE_DIR: /home/runner/.nixcache/
       TRUNK_CACHE_DIR: /home/runner/.trunkcache/
+      POETRY_CACHE_DIR: /home/runner/.poetrycache/
     permissions:
       # Needed to checkout code
       contents: read
@@ -58,6 +59,11 @@ jobs:
         with:
           path: ${{ env.TRUNK_CACHE_DIR }}
           key: test-trunk
+      - name: Setup Poetry cache
+        uses: actions/cache@v3.3.2
+        with:
+          path: ${{ env.POETRY_CACHE_DIR }}
+          key: test-poetry
       - name: Install Nix
         uses: cachix/install-nix-action@v23
         with:
@@ -73,6 +79,7 @@ jobs:
       - name: Run tests
         env:
           TRUNK_CACHE: ${{ env.TRUNK_CACHE_DIR }}
+          POETRY_CACHE_DIR: ${{ env.POETRY_CACHE_DIR }}
         run: >
           nix
           develop
