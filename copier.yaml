@@ -1,4 +1,3 @@
----
 # Questions
 
 accountname:
@@ -8,7 +7,7 @@ accountname:
 
 email:
   type: str
-  help: Your email address
+  help: Email address to use in package metadata
   default: it@radioaktywne.pl
 
 packagename:
