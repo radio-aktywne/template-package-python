@@ -17,10 +17,10 @@ def data() -> dict[str, str]:
         "packagename": "foo",
         "importname": "foo",
         "description": "Example package",
-        "reponame": "package-foo",
-        "repourl": "https://github.com/radio-aktywne/package-foo",
+        "reponame": "foo",
+        "repourl": "https://github.com/radio-aktywne/foo",
         "docs": "true",
-        "docsurl": "https://radio-aktywne.github.io/package-foo",
+        "docsurl": "https://radio-aktywne.github.io/foo",
         "releases": "true",
     }
 
