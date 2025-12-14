@@ -2,13 +2,8 @@
 
 accountname:
   type: str
-  help: The name of the organization on GitHub
+  help: The name of the account on GitHub
   default: radio-aktywne
-
-email:
-  type: str
-  help: Email address to use in package metadata
-  default: it@radioaktywne.pl
 
 packagename:
   type: str
